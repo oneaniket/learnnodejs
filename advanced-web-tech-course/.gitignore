@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+**/node_modules/
+
+# build output
+dist/
+build/
+**/dist/
+**/build/
+
+# TypeScript compiled output
+**/*.js.map
+05-typescript/dist/
+
+# env / secrets
+.env
+**/.env
+
+# logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# PDFs ARE committed so students can download them straight from GitHub.
+# Regenerate anytime with `npm run pdf`.

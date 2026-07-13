@@ -1,0 +1,13 @@
+{
+  "name": "advanced-web-tech-course",
+  "version": "1.0.0",
+  "description": "12-hour hands-on course: Node.js, Express, MongoDB, TypeScript, React (RPSCSOP602)",
+  "private": true,
+  "scripts": {
+    "pdf": "bash build-pdf.sh"
+  },
+  "devDependencies": {
+    "md-to-pdf": "^5.2.4"
+  },
+  "license": "MIT"
+}

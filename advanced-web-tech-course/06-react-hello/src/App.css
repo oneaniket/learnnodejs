@@ -1,0 +1,22 @@
+/* App.css — basic styling for the first app. */
+
+.app {
+  font-family: system-ui, Arial, sans-serif;
+  text-align: center;
+  margin-top: 3rem;
+  color: #222;
+}
+
+.card {
+  display: inline-block;
+  padding: 1.5rem 2rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #fafafa;
+}
+
+.card h1 {
+  color: #4a54e1;
+  margin: 0 0 0.5rem;
+}

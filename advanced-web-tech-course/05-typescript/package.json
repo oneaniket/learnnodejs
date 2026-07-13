@@ -1,0 +1,16 @@
+{
+  "name": "module-05-typescript",
+  "version": "1.0.0",
+  "description": "TypeScript: data structures, functions, classes and inheritance",
+  "scripts": {
+    "basics": "ts-node src/01-basics.ts",
+    "structures": "ts-node src/02-data-structures.ts",
+    "classes": "ts-node src/03-classes-inheritance.ts",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "license": "MIT"
+}

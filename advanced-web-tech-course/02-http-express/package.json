@@ -1,0 +1,14 @@
+{
+  "name": "module-02-http-express",
+  "version": "1.0.0",
+  "description": "HTTP status codes and response headers with the raw http module and Express",
+  "main": "code/express-server.js",
+  "scripts": {
+    "start": "node code/express-server.js",
+    "raw": "node code/raw-http-server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "license": "MIT"
+}

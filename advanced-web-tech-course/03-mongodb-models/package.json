@@ -1,0 +1,14 @@
+{
+  "name": "module-03-mongodb-models",
+  "version": "1.0.0",
+  "description": "MongoDB data models with Mongoose: schemas, validation, referencing, embedding",
+  "main": "code/demo.js",
+  "scripts": {
+    "start": "node code/demo.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.5.1"
+  },
+  "license": "MIT"
+}

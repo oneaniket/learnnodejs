@@ -1,0 +1,72 @@
+/* App.css — styling for the data grid (Practical 6 asks for CSS). */
+
+body {
+  margin: 0;
+  background: #f4f5f7;
+}
+
+.app {
+  font-family: system-ui, Arial, sans-serif;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  color: #222;
+}
+
+.subtitle {
+  color: #777;
+  margin-top: -0.5rem;
+}
+
+/* CSS Grid: auto-fit as many 240px cards per row as fit, then wrap. */
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.user-card {
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.1s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+}
+
+.user-card h3 {
+  margin: 0 0 0.25rem;
+  color: #333;
+}
+
+.email {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Badge base + two states chosen conditionally in the component. */
+.badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: #fff;
+}
+
+.badge-on {
+  background: #2e9e5b;
+}
+
+.badge-off {
+  background: #b0b0b0;
+}
