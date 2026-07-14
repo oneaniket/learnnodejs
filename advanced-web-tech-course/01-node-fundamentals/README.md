@@ -56,7 +56,80 @@ Run it yourself: [`code/sync-vs-async.js`](code/sync-vs-async.js)
 
 ---
 
-## Part C — The Event Loop (~30 min)
+## Part C — How Node handles slow work (~20 min)
+
+Node.js does **not** perform every operation on one thread. JavaScript runs on
+one main thread, while Node delegates slow operations to the operating system
+or to **libuv**, Node's internal asynchronous I/O library.
+
+### The restaurant analogy
+
+Imagine running a restaurant alone. You take orders, cook, wash dishes, serve
+customers, and collect payment. Only one customer can be served at a time.
+
+```
+Manager → Take order → Cook food → Serve food → Take next order
+```
+
+With kitchen staff, you take an order and hand the cooking work to the kitchen.
+While food is cooking, you can keep taking orders from other customers.
+
+```
+Customer → Manager → Kitchen staff
+                     ↓
+              food is prepared
+```
+
+Node.js works similarly: JavaScript starts work, delegates slow work, and
+handles the result later.
+
+### Example: reading a file
+
+```js
+const fs = require("fs");
+
+fs.readFile("data.txt", (err, data) => {
+  if (err) return console.error(err);
+  console.log(data.toString());
+});
+
+console.log("Finished");
+```
+
+JavaScript does **not** read the file itself. Node asks the operating system or
+libuv to do the work, then immediately continues. `Finished` therefore prints
+before the file contents.
+
+A file read might take 50 milliseconds, 500 milliseconds, or five seconds.
+JavaScript should not stop and wait for it. This is why the file-read work is
+delegated instead of being performed by JavaScript itself.
+
+Depending on the operation, the work is handled by the **operating system** or
+the **libuv thread pool**. Common examples include file system work, some DNS
+lookups, cryptography, and compression. These tasks happen outside the main
+JavaScript thread.
+
+### The libuv thread pool
+
+libuv's thread pool has **four worker threads by default**. Certain delegated
+tasks can run independently while the main JavaScript thread remains available.
+
+```
+File A → Worker 1
+File B → Worker 2
+File C → Worker 3
+File D → Worker 4
+```
+
+Meanwhile, JavaScript can continue handling requests and executing more code:
+
+```
+Handle request → Run JavaScript → Accept another request → Continue
+```
+
+---
+
+## Part D — The Event Loop (~30 min)
 
 Think of the event loop as a **manager with a to-do list** that never stops
 checking: *"Is the main code done? Is any finished background work ready to
@@ -111,7 +184,75 @@ of async APIs is to keep the loop free. Compare:
 
 ---
 
-## Part D — Three ways to handle async results (~20 min)
+## Part E — How a completed operation returns to JavaScript
+
+When delegated work finishes, Node makes its callback ready to run. The event
+loop checks whether the call stack is empty; when it is, the callback can be
+executed on the main JavaScript thread.
+
+```
+Completed file read → Callback queue → Event loop → Call stack → Callback runs
+```
+
+If the call stack is not empty, the callback waits. If it is empty, the event
+loop moves the ready callback from the queue to the call stack for execution.
+
+### Complete execution flow
+
+```
+JavaScript
+  ↓
+fs.readFile()
+  ↓
+Operating system / libuv thread pool
+  ↓
+Read file
+  ↓
+File read completes
+  ↓
+Callback becomes ready
+  ↓
+Event loop
+  ↓
+Call stack is empty
+  ↓
+Execute callback in JavaScript
+```
+
+### Example and output
+
+```js
+const fs = require("fs");
+
+console.log("Start");
+
+fs.readFile("test.txt", () => {
+  console.log("File loaded");
+});
+
+console.log("End");
+```
+
+**Output:**
+
+```
+Start
+End
+File loaded
+```
+
+Reasoning:
+
+1. `Start` runs immediately.
+2. `fs.readFile()` delegates the file read; JavaScript does not wait.
+3. `End` runs immediately.
+4. When the file read completes and the call stack is clear, the event loop
+   allows the callback to run.
+5. `File loaded` prints last.
+
+---
+
+## Part F — Three ways to handle async results (~20 min)
 
 Same task (wait, then produce a value), written three ways.
 
@@ -160,10 +301,40 @@ Full comparison: [`code/async-styles.js`](code/async-styles.js)
 ## Summary
 
 - Node runs JavaScript on **one thread** using V8.
+- Node does **not** perform every task on one thread: slow work is delegated to
+  the operating system or the libuv thread pool, depending on the operation.
 - Slow work is **non-blocking**; results come back later.
 - The **event loop** orders that work: sync code → microtasks (Promises) →
   macrotasks (timers/IO).
 - Never block the loop with long synchronous work.
 - Prefer **async/await** for readable asynchronous code.
+
+### Summary diagram
+
+```
+JavaScript
+  ↓
+Main JavaScript thread starts file read
+  ↓
+Operating system / libuv thread pool reads file
+  ↓
+Completed callback becomes ready
+  ↓
+Event loop checks the call stack
+  ↓
+Callback executes in JavaScript
+```
+
+---
+
+## Check your understanding
+
+1. What does “single-threaded” mean in Node.js?
+2. Does Node.js execute every task on one thread?
+3. What is the role of the event loop?
+4. What is libuv and what is its thread pool?
+5. Why does `fs.readFile()` not block the application?
+6. What is the difference between synchronous and asynchronous execution?
+7. How does Node.js achieve concurrency with one JavaScript thread?
 
 Now do [`practice.md`](practice.md).
