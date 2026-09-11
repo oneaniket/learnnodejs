@@ -1,13 +1,13 @@
-// Button.js — a reusable component that changes its look using props.
-
+// A reusable button.
+// The parent decides the text, style, click action, and HTML type through props.
 function Button({ children, variant = "primary", onClick, type = "button" }) {
   return (
     <button
-      type={type}
-      className={`button button--${variant}`}
-      onClick={onClick}
+      type={type} // "button" by default; use "submit" inside a form
+      className={`button button--${variant}`} // primary or secondary CSS style
+      onClick={onClick} // run the function supplied by the parent
     >
-      {children}
+      {children} {/* whatever is written between <Button>...</Button> */}
     </button>
   );
 }

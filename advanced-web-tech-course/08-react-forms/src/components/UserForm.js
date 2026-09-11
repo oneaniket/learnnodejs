@@ -1,28 +1,29 @@
-// UserForm.js — a controlled form built with STATE, that reports results to
-// its parent via a PROP callback (onAddUser).
-
 import { useState } from "react";
 import Button from "./Button";
 
-// `onAddUser` is a function passed in as a prop by the parent (App).
+// App sends onAddUser to this component as a prop.
 function UserForm({ onAddUser }) {
-  // One state object holds every field's value.
+  // React state stores the current value of both inputs.
   const [form, setForm] = useState({ name: "", email: "" });
-  // Separate state for a validation error message.
+  // This state stores an error message, if validation fails.
   const [error, setError] = useState("");
 
-  // One handler for ALL inputs. It uses the input's `name` attribute to know
-  // which field to update.
-  function handleChange(e) {
-    const { name, value } = e.target;
-    // Copy the previous state, then overwrite just the changed field.
-    setForm((prev) => ({ ...prev, [name]: value }));
+  // Both inputs use this one handler.
+  // The input name tells us which property to change.
+  function handleInputChange(event) {
+    const inputName = event.target.name;
+    const inputValue = event.target.value;
+
+    setForm((previousForm) => ({
+      ...previousForm,
+      [inputName]: inputValue,
+    }));
   }
 
-  function handleSubmit(e) {
-    e.preventDefault(); // stop the browser from reloading the page
+  function handleSubmit(event) {
+    event.preventDefault(); // keep React from doing a full-page reload
 
-    // Validation: read straight from state.
+    // Check the values currently stored in state.
     if (!form.name.trim()) {
       setError("Name is required");
       return;
@@ -32,10 +33,10 @@ function UserForm({ onAddUser }) {
       return;
     }
 
-    // Valid -> send the data UP to the parent via the callback prop.
+    // Send the valid user up to App through the callback prop.
     onAddUser({ ...form });
 
-    // Reset the form and clear any error.
+    // Clear the inputs after a successful submission.
     setForm({ name: "", email: "" });
     setError("");
   }
@@ -46,10 +47,11 @@ function UserForm({ onAddUser }) {
         <label htmlFor="name">Name</label>
         <input
           id="name"
-          name="name" // must match the key in `form`
-          value={form.name} // value comes FROM state (controlled input)
-          onChange={handleChange} // typing updates state
+          name="name"
+          value={form.name}
+          onChange={handleInputChange}
           placeholder="Ada Lovelace"
+          required
         />
       </div>
 
@@ -59,13 +61,15 @@ function UserForm({ onAddUser }) {
           id="email"
           name="email"
           value={form.email}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="ada@example.com"
+          type="email"
+          required
         />
       </div>
 
-      {/* Show the error only when there is one. */}
-      {error && <p className="error">{error}</p>}
+      {/* Render an error paragraph only when error contains text. */}
+      {error && <p className="error" role="alert">{error}</p>}
 
       <Button type="submit">Add User</Button>
     </form>

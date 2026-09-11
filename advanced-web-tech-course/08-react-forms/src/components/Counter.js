@@ -1,10 +1,17 @@
-// Counter.js — combines local state with the reusable Button component.
-
 import { useState } from "react";
 import Button from "./Button";
 
 function Counter() {
+  // count is this component's memory. The screen updates when setCount runs.
   const [count, setCount] = useState(0);
+
+  function increaseCount() {
+    setCount((currentCount) => currentCount + 1);
+  }
+
+  function resetCount() {
+    setCount(0);
+  }
 
   return (
     <div className="counter">
@@ -13,12 +20,8 @@ function Counter() {
       </p>
 
       <div className="button-row">
-        <Button onClick={() => setCount((current) => current + 1)}>
-          Increase
-        </Button>
-        <Button variant="secondary" onClick={() => setCount(0)}>
-          Reset
-        </Button>
+        <Button onClick={increaseCount}>Increase</Button>
+        <Button variant="secondary" onClick={resetCount}>Reset</Button>
       </div>
     </div>
   );

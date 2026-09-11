@@ -1,9 +1,12 @@
-// MenuBar.js — maps an array to buttons and remembers the selected item.
-
 import { useState } from "react";
 
 function MenuBar({ items }) {
-  const [activeItem, setActiveItem] = useState(items[0]);
+  // Start with the first item selected.
+  const [selectedItem, setSelectedItem] = useState(items[0]);
+
+  function selectItem(item) {
+    setSelectedItem(item);
+  }
 
   return (
     <div>
@@ -11,9 +14,11 @@ function MenuBar({ items }) {
         {items.map((item) => (
           <button
             type="button"
-            className={item === activeItem ? "menu-item is-active" : "menu-item"}
+            className={
+              item === selectedItem ? "menu-item is-active" : "menu-item"
+            }
             key={item}
-            onClick={() => setActiveItem(item)}
+            onClick={() => selectItem(item)}
           >
             {item}
           </button>
@@ -21,7 +26,7 @@ function MenuBar({ items }) {
       </div>
 
       <p className="selection-message">
-        Selected menu item: <strong>{activeItem}</strong>
+        Selected menu item: <strong>{selectedItem}</strong>
       </p>
     </div>
   );
