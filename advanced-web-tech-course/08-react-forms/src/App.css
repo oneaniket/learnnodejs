@@ -1,24 +1,179 @@
-/* App.css — form + list styling. */
+/* App.css — shared styling for the basic component examples. */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
   background: #f4f5f7;
+  color: #222;
+  font-family: system-ui, Arial, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem max(1rem, calc((100% - 760px) / 2));
+  background: #252a5a;
+  color: #fff;
+}
+
+.navbar a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navbar__brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar__links a:hover,
+.navbar__links a:focus-visible {
+  text-decoration: underline;
 }
 
 .app {
-  font-family: system-ui, Arial, sans-serif;
-  max-width: 480px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-  color: #222;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0.2rem 0 0.6rem;
+  font-size: clamp(2rem, 6vw, 3rem);
+}
+
+.page-header p:last-child,
+.example-note {
+  color: #5b6170;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #4a54e1;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.example-section {
+  margin-bottom: 1.25rem;
+  padding: 1.4rem;
+  border: 1px solid #e0e2e7;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(28, 34, 61, 0.05);
+  scroll-margin-top: 5rem;
+}
+
+.example-section h2 {
+  margin: 0;
+}
+
+.example-section h3 {
+  margin: 1.5rem 0 0.7rem;
+}
+
+.example-note {
+  margin: 0.35rem 0 1rem;
+}
+
+.menu-bar,
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.menu-item {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #cfd3dc;
+  border-radius: 7px;
+  background: #f8f9fb;
+  color: #353a48;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  border-color: #4a54e1;
+}
+
+.menu-item.is-active {
+  border-color: #4a54e1;
+  background: #eef0ff;
+  color: #3039b5;
+  font-weight: 700;
+}
+
+.selection-message {
+  margin: 0.9rem 0 0;
+  color: #454b59;
+}
+
+.button {
+  padding: 0.55rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button--primary {
+  background: #4a54e1;
+  color: #fff;
+}
+
+.button--primary:hover {
+  background: #3a44c8;
+}
+
+.button--secondary {
+  border-color: #4a54e1;
+  background: #fff;
+  color: #3a44c8;
+}
+
+.button--secondary:hover {
+  background: #eef0ff;
+}
+
+.counter p {
+  margin-top: 0;
+  font-size: 1.1rem;
 }
 
 .user-form {
-  background: #fff;
+  padding: 1.1rem;
   border: 1px solid #e3e3e3;
   border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  background: #fafbfc;
 }
 
 .field {
@@ -28,9 +183,9 @@ body {
 }
 
 .field label {
-  font-size: 0.85rem;
-  color: #555;
   margin-bottom: 0.25rem;
+  color: #555;
+  font-size: 0.85rem;
 }
 
 .field input {
@@ -41,39 +196,38 @@ body {
 }
 
 .field input:focus {
-  outline: none;
+  outline: 2px solid #c8ccff;
   border-color: #4a54e1;
 }
 
 .error {
+  margin: 0 0 0.75rem;
   color: #c0392b;
   font-size: 0.85rem;
-  margin: 0 0 0.75rem;
-}
-
-button {
-  background: #4a54e1;
-  color: #fff;
-  border: none;
-  padding: 0.55rem 1.1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #3a44c8;
 }
 
 .user-list {
-  list-style: none;
+  margin-bottom: 0;
   padding: 0;
+  list-style: none;
 }
 
 .user-list li {
-  background: #fff;
+  margin-bottom: 0.5rem;
+  padding: 0.6rem 0.9rem;
   border: 1px solid #e3e3e3;
   border-radius: 8px;
-  padding: 0.6rem 0.9rem;
-  margin-bottom: 0.5rem;
+  background: #fafbfc;
+}
+
+@media (max-width: 520px) {
+  .navbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .app {
+    padding-top: 1.5rem;
+  }
 }

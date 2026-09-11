@@ -5,6 +5,18 @@
 > Practical 7: *Creating a form in React js using components properties (props)
 > & state.*
 
+This module also includes a few small component examples that you can inspect
+and reuse:
+
+- **Navbar** — receives a brand and link list through props.
+- **MenuBar** — renders a list with `map()` and stores the active item in state.
+- **Button** — uses `children`, a `variant` prop, and an `onClick` event.
+- **Counter** — owns local state and composes the reusable Button component.
+- **UserForm** — uses controlled inputs and sends submitted data to its parent.
+
+Look in [`src/components`](src/components) to see each component in its own
+file. [`src/App.js`](src/App.js) shows how they are imported and combined.
+
 ---
 
 ## Part A — State: memory that triggers re-render (concept, ~20 min)
@@ -120,8 +132,8 @@ npm install
 npm start          # opens http://localhost:3000
 ```
 
-Type a name + email, submit, and watch it appear in the list below — with
-validation on empty fields.
+Try the menu, buttons, and counter. Then type a name + email, submit, and watch
+it appear in the list below — with validation on empty fields.
 
 ---
 
@@ -132,5 +144,8 @@ validation on empty fields.
 - One state object + one `handleChange` handles a whole form.
 - **`e.preventDefault()`** stops the page reload on submit.
 - **Data flows down via props, events flow up via callbacks** (lifting state up).
+- Components can be **composed**: `Counter` uses the shared `Button` component.
+- Arrays can become UI elements with **`map()`**, as shown in the navbar and
+  menu bar.
 
 Now do [`practice.md`](practice.md).

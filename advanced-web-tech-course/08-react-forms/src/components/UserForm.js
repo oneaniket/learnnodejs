@@ -2,6 +2,7 @@
 // its parent via a PROP callback (onAddUser).
 
 import { useState } from "react";
+import Button from "./Button";
 
 // `onAddUser` is a function passed in as a prop by the parent (App).
 function UserForm({ onAddUser }) {
@@ -66,7 +67,7 @@ function UserForm({ onAddUser }) {
       {/* Show the error only when there is one. */}
       {error && <p className="error">{error}</p>}
 
-      <button type="submit">Add User</button>
+      <Button type="submit">Add User</Button>
     </form>
   );
 }
